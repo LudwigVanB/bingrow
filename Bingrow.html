@@ -1,0 +1,142 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <style type="text/css">
+    body   { background-color: black; }
+    div    {
+      color: white;
+      font-family: "Verdana",serif;
+      text-align: center;
+      width: 100%; }
+    table {
+      display: inline;
+      margin: 40px;
+      float: left;
+      border-collapse: collapse;
+    }
+    td, th {
+      border: solid 1px #808080;
+      width : 40px;
+    }
+    #title {
+      color: red;
+      font-size: 18pt;
+      font-weight: bold; }
+    #drawBtn {
+      float: left;
+      height: 50px;
+      width: 70px;
+    }
+    #resetBtn {
+      float: right;
+      width: 70px;
+    }
+    #currentDraw {
+      font-size: 24pt;
+      font-weight: bold; }
+    #drawLog {
+      text-align: left;
+    }
+    #score {
+      font-size: 10pt;
+    }
+  </style>
+
+  <title>Bingrow</title>
+  <script type="text/javascript">
+    var tbTiles = [ 1, 2, 3, 4, 5, 6, 7, 8, 9,10,
+                   11,12,13,14,15,16,17,18,19,
+                   11,12,13,14,15,16,17,18,19,20,
+                   21,22,23,24,25,26,27,28,29,30,
+                   '*'];
+    var nbTurns = 20;
+
+    var tbTilesInBag;
+    var tbTilesDrawn;
+
+    function onDrawClick() {
+      var lastTurn = tbTiles.length-tbTilesInBag.length;
+      if (lastTurn <20) {
+        var iDrawn = Math.floor((Math.random()*tbTilesInBag.length));
+        var tileDrawn = tbTilesInBag[iDrawn];
+        tbTilesInBag.splice(iDrawn,1);
+        tbTilesDrawn.push(tileDrawn);
+        display(tileDrawn);
+      }
+    }
+
+    function display(tileDrawn) {
+      document.getElementById('turnNumberCount').innerHTML = (tbTiles.length-tbTilesInBag.length)+' / '+nbTurns;
+      document.getElementById('currentDraw').innerHTML = tileDrawn||'&nbsp;';
+      document.getElementById('drawLog').innerHTML = tbTilesDrawn.join(' ') || '&nbsp;';
+    }
+
+    function reset() {
+      tbTilesInBag = tbTiles.slice();
+      tbTilesDrawn = [];
+      display();
+    }
+    function onResetClick() {
+      var answer = confirm("WARNING: confirm game reset?");
+      if (answer) reset();
+    }
+
+    window.addEventListener('load', function() {
+      reset();
+      document.getElementById('drawBtn').addEventListener('click', onDrawClick);
+      document.getElementById('resetBtn').addEventListener('click', onResetClick);
+    });
+ 
+
+  </script>
+</head>
+<body>
+  <div id="title">Bingrow</div>
+  <div id="controls">
+    <input id="drawBtn" type="button" value="Draw" />
+    <input id="resetBtn" type="button" value="Reset" />
+  </div>
+  <div id="turnNumber">
+    <span id="turnNumberTitle">Tiles drawn:</span>
+    <span id="turnNumberCount"></span>
+  </div>
+  <div id="currentDraw"></div>
+  <div id="drawLog"></div>
+  <div id="tilesList">1~10 | 11~19 x2 | 20~30 | *</div>
+  <div id="score">
+    <table>
+      <tbody>
+        <tr><th>&lt;&lt;</th><th>+</th></tr>
+        <tr><td>1</td><td>0</td></tr>
+        <tr><td>2</td><td>1</td></tr>
+        <tr><td>3</td><td>3</td></tr>
+        <tr><td>4</td><td>5</td></tr>
+        <tr><td>5</td><td>7</td></tr>
+        <tr><td>6</td><td>9/3</td></tr>
+        <tr><td>7</td><td>11</td></tr>
+        <tr><td>8</td><td>15</td></tr>
+        <tr><td>9</td><td>20</td></tr>
+        <tr><td>10</td><td>25</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <tbody>
+      <tr><th>&lt;&lt;</th><th>+</th></tr>
+      <tr><td>11</td><td>30</td></tr>
+      <tr><td>12</td><td>35/20</td></tr>
+      <tr><td>13</td><td>40</td></tr>
+      <tr><td>14</td><td>50</td></tr>
+      <tr><td>15</td><td>60</td></tr>
+      <tr><td>16</td><td>70</td></tr>
+      <tr><td>17</td><td>85/50</td></tr>
+      <tr><td>18</td><td>100</td></tr>
+      <tr><td>19</td><td>150</td></tr>
+      <tr><td>20</td><td>300</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
